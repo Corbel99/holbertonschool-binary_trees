@@ -2,7 +2,7 @@
 
 /**
  * binary_tree_height - Measures the height of a binary tree
- * @tree: Pointer to the root node of the tree
+ * @tree: Pointer to the root node
  *
  * Return: Height of the tree
  */
@@ -11,22 +11,20 @@ size_t binary_tree_height(const binary_tree_t *tree)
 	size_t left_height, right_height;
 
 	if (tree == NULL)
-	return (0);
+		return (0);
 
 	if (tree->left == NULL && tree->right == NULL)
-	return (0);
+		return (0);
 
 	left_height = binary_tree_height(tree->left);
-
 	right_height = binary_tree_height(tree->right);
 
 	if (left_height > right_height)
 		return (left_height + 1);
-	else
-		return (right_height + 1);
+
+	return (right_height + 1);
 }
 
-#include "binary_trees.h"
 /**
  * binary_tree_is_full - Checks if a binary tree is full
  * @tree: Pointer to the root node
@@ -43,8 +41,8 @@ int binary_tree_is_full(const binary_tree_t *tree)
 	if (tree->left == NULL && tree->right == NULL)
 		return (1);
 
-	if ((tree->left != NULL && tree->right == NULL)
-	|| (tree->left == NULL && tree->right != NULL))
+	if ((tree->left != NULL && tree->right == NULL) ||
+	    (tree->left == NULL && tree->right != NULL))
 		return (0);
 
 	full_left = binary_tree_is_full(tree->left);
@@ -52,8 +50,6 @@ int binary_tree_is_full(const binary_tree_t *tree)
 
 	if (full_left == 1 && full_right == 1)
 		return (1);
-
-	
 
 	return (0);
 }
@@ -67,6 +63,7 @@ int binary_tree_is_full(const binary_tree_t *tree)
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
 	int left_height, right_height;
+	int perfect_left, perfect_right;
 
 	if (tree == NULL)
 		return (0);
@@ -74,10 +71,13 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 	left_height = (int)binary_tree_height(tree->left);
 	right_height = (int)binary_tree_height(tree->right);
 
-	binary_tree_is_perfect(tree->left);
-	binary_tree_is_perfect(tree->right);
+	perfect_left = binary_tree_is_perfect(tree->left);
+	perfect_right = binary_tree_is_perfect(tree->right);
 
-	if (binary_tree_is_full(tree) == 1 && left_height == right_height)
+	if (binary_tree_is_full(tree) == 1 &&
+	    left_height == right_height &&
+	    perfect_left == 1 &&
+	    perfect_right == 1)
 		return (1);
 
 	return (0);
